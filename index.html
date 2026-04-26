@@ -98,8 +98,8 @@
         <p class="text-sm text-amber-900/80">DLsite / FANZA は同じ作品でも価格帯で卸価格(=取り分)が変わります。¥1,099 と ¥1,100 で取り分が変わる「境界」があり、価格設定で月の手取りが大きく変動します。</p>
       </div>
       <div class="border-l-4 border-amber-400 bg-amber-50 p-5 rounded-r-lg">
-        <h3 class="font-bold text-amber-900 mb-1">② BOOTHは固定手数料が乗る</h3>
-        <p class="text-sm text-amber-900/80">BOOTHは <strong>5.6% + ¥45/件</strong>(2025/10/28改定後)。低価格帯だと固定¥45の比率が大きくなり、利益率が下がりやすい構造です。</p>
+        <h3 class="font-bold text-amber-900 mb-1">② BOOTHは固定手数料 + 小数点切り上げ</h3>
+        <p class="text-sm text-amber-900/80">BOOTHのサービス利用料は <strong>5.6% + ¥45/件</strong>(2025/10/28改定後)で、<strong>1件ごとに小数点以下切り上げ</strong>です。低価格帯だと固定¥45の比率が大きくなり、利益率が下がりやすい構造です。本サイトでは、月販売数を1件ずつの注文として概算しています(複数個まとめ買い・BOOST・倉庫発送・送料等は別途条件で変動)。</p>
       </div>
       <div class="border-l-4 border-amber-400 bg-amber-50 p-5 rounded-r-lg">
         <h3 class="font-bold text-amber-900 mb-1">③ 専売 / 併売で取り分が違う</h3>
@@ -133,6 +133,7 @@
       </div>
       <ul class="text-sm text-slate-700 space-y-2 flex-grow">
         <li><strong>5.6% + ¥45/件</strong>(2025/10/28改定後)</li>
+        <li>サービス利用料は<strong>1件ごとに小数点切り上げ</strong></li>
         <li>低価格帯ほど ¥45 の比率が増えやすい</li>
         <li>専売 / 併売の概念は無し</li>
         <li>サークル管理画面で実数確認可能</li>
@@ -359,7 +360,10 @@
       <details class="border border-slate-200 rounded-lg p-5 bg-slate-50">
         <summary class="font-bold text-slate-900 pl-2">BOOTH の手数料は公式値で合っていますか?</summary>
         <p class="mt-3 text-sm text-slate-700 leading-relaxed pl-2">
-          BOOTHは公式が公開している <strong>5.6% + ¥45/件</strong>(2025/10/28改定)を反映しています。例として ¥1,100 × 100部の場合、(1100 × 0.944 - 45) × 100 = <strong>¥99,340</strong> となります。
+          BOOTHは公式が公開している <strong>5.6% + ¥45/件</strong>(2025/10/28改定)を反映しています。サービス利用料は1件ごとに <strong>小数点以下を切り上げ</strong> です。例として ¥1,100 × 100部の場合:<br>
+          1件あたり手数料 = ROUNDUP(1100 × 5.6% + 45) = ROUNDUP(106.6) = <strong>¥107</strong><br>
+          1件あたり手取り = 1,100 − 107 = <strong>¥993</strong> / 100部 = <strong>¥99,300</strong> となります。<br>
+          <span class="text-xs text-slate-500">※ 月販売数を1件ずつの注文として概算しています。複数個まとめ買い・BOOST・倉庫発送・送料等は別途条件により変動します。</span>
         </p>
       </details>
       <details class="border border-slate-200 rounded-lg p-5 bg-slate-50">
@@ -488,7 +492,9 @@ const FEE_MODEL = {
     return 0.8;
   },
   BOOTH: {
-    flat: { share: 0.944, per_unit_fee: 45 },  // 2025/10/28改定後 5.6%+¥45/件
+    // 2025/10/28改定後: 5.6% + ¥45/件、サービス利用料は1件ごとに小数点以下切り上げ。
+    // 月販売数を1件ずつの注文として概算しています(複数個まとめ買い・BOOST・倉庫発送・送料等は別途条件で変動)。
+    flat: { commission_rate: 0.056, fixed_fee: 45 },
   }
 };
 const INVOICE_PENALTY_DLSITE = 0.10;
@@ -528,9 +534,12 @@ function calcFANZA() {
 
 function calcBOOTH() {
   const cfg = FEE_MODEL.BOOTH.flat;
-  const per_unit = Math.max(0, effectivePrice() * cfg.share - cfg.per_unit_fee);
+  const price = effectivePrice();
+  // BOOTH 公式: 1件ごとに「販売価格 × 5.6% + ¥45」を計算し、小数点以下を切り上げて手数料を確定
+  const fee_per_unit = Math.ceil(price * cfg.commission_rate + cfg.fixed_fee);
+  const per_unit = Math.max(0, price - fee_per_unit);
   const monthly = per_unit * state.units;
-  return { monthly, yearly: monthly * 12, share: cfg.share, label: 'BOOTH' };
+  return { monthly, yearly: monthly * 12, share: 1 - cfg.commission_rate, label: 'BOOTH' };
 }
 
 function calcAll() {
