@@ -46,15 +46,17 @@
 <!-- ファーストビュー -->
 <header id="top" class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white">
   <div class="max-w-6xl mx-auto px-4 py-12 md:py-20">
-    <p class="inline-block bg-white/20 text-white text-xs px-3 py-1 rounded-full mb-4">📊 同人作家のための売上管理ラボ</p>
-    <h1 class="text-3xl md:text-5xl font-bold leading-tight">DLsite / FANZA / BOOTH<br>手取りを <span class="bg-white text-indigo-700 px-2 rounded">秒で比較</span></h1>
-    <p class="mt-5 text-lg md:text-xl opacity-90 leading-relaxed">
-      販売プラットフォームごとに違う手数料・卸価格・キャンペーン値引き。<br>
-      入力するだけで <strong>月の手取り</strong> を比較できる無料シミュレータと、<strong>Excel売上管理テンプレ</strong> を無料配布しています。
+    <p class="inline-block bg-white/20 text-white text-xs px-3 py-1 rounded-full mb-5">📊 同人作家のための売上管理ラボ</p>
+    <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold leading-snug md:leading-tight tracking-tight">
+      <span class="block">DLsite / FANZA / BOOTH</span>
+      <span class="block mt-2 md:mt-3">の手取りを <span class="inline-block bg-white text-indigo-700 px-2 rounded">比較</span></span>
+    </h1>
+    <p class="mt-6 text-base sm:text-lg md:text-xl opacity-90 leading-relaxed max-w-3xl">
+      販売プラットフォームごとに違う手数料・卸価格・キャンペーン値引きを反映して、入力するだけで <strong>月の手取り</strong> を並べて確認できる無料シミュレータと、<strong>Excel売上管理テンプレ</strong> を無料配布しています。
     </p>
-    <div class="mt-8 flex flex-wrap gap-3">
-      <a href="#simulator" class="px-6 py-3 bg-white text-indigo-700 font-bold rounded-lg shadow hover:shadow-lg transition">▶ シミュレータを試す</a>
-      <a href="#download" class="px-6 py-3 bg-yellow-300 text-slate-900 font-bold rounded-lg shadow hover:shadow-lg transition">📥 Excelテンプレを無料DL</a>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+      <a href="#simulator" class="text-center px-6 py-3 bg-white text-indigo-700 font-bold rounded-lg shadow hover:shadow-lg transition">▶ シミュレータを試す</a>
+      <a href="#download" class="text-center px-6 py-3 bg-yellow-300 text-slate-900 font-bold rounded-lg shadow hover:shadow-lg transition">📥 Excelテンプレを無料DL</a>
     </div>
     <p class="mt-6 text-sm opacity-80">
       ※ 手数料率・卸価格は2026年4月時点の暫定値です。実際の率は各公式管理画面・公式案内でご確認ください。
@@ -123,44 +125,44 @@
 <section id="fees" class="anchor-offset max-w-6xl mx-auto px-4 py-12 md:py-16">
   <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">BOOTH / DLsite / FANZA の手数料注意</h2>
   <p class="text-slate-600 mb-8">2026年4月時点で確認できる範囲の <strong>暫定値</strong> です。最終的な実数は各サークル管理画面でご確認ください。</p>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div class="bg-white border-2 border-emerald-400 rounded-xl p-6">
-      <div class="flex items-center gap-2 mb-3">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+    <div class="bg-white border-2 border-emerald-400 rounded-xl p-6 flex flex-col h-full">
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
         <h3 class="font-bold text-lg">BOOTH</h3>
-        <span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded">公式公開値</span>
+        <span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded font-medium">公式公開値</span>
       </div>
-      <ul class="text-sm text-slate-700 space-y-2">
+      <ul class="text-sm text-slate-700 space-y-2 flex-grow">
         <li><strong>5.6% + ¥45/件</strong>(2025/10/28改定後)</li>
         <li>低価格帯ほど ¥45 の比率が増えやすい</li>
         <li>専売 / 併売の概念は無し</li>
         <li>サークル管理画面で実数確認可能</li>
       </ul>
     </div>
-    <div class="bg-white border-2 border-amber-300 rounded-xl p-6">
-      <div class="flex items-center gap-2 mb-3">
+    <div class="bg-white border-2 border-amber-300 rounded-xl p-6 flex flex-col h-full">
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
         <h3 class="font-bold text-lg">DLsite</h3>
-        <span class="bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded">暫定値</span>
+        <span class="bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded font-medium">暫定値</span>
       </div>
-      <ul class="text-sm text-slate-700 space-y-2">
+      <ul class="text-sm text-slate-700 space-y-2 flex-grow">
         <li>価格帯 × 専売/併売で取り分が変動(暫定)</li>
         <li>キャンペーン参加で実効単価が下がる</li>
         <li>インボイス未登録時は経過措置で段階的減額の可能性</li>
         <li class="text-amber-700"><strong>必ずサークル管理画面の卸価格表で確認</strong></li>
       </ul>
-      <a href="https://www.dlsite.com/" target="_blank" class="text-xs text-indigo-600 underline mt-3 inline-block">DLsite公式 ↗</a>
+      <a href="https://www.dlsite.com/" target="_blank" class="text-xs text-indigo-600 underline mt-4 inline-block">DLsite公式 ↗</a>
     </div>
-    <div class="bg-white border-2 border-amber-300 rounded-xl p-6">
-      <div class="flex items-center gap-2 mb-3">
+    <div class="bg-white border-2 border-amber-300 rounded-xl p-6 flex flex-col h-full">
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
         <h3 class="font-bold text-lg">FANZA同人</h3>
-        <span class="bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded">暫定値</span>
+        <span class="bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded font-medium">暫定値</span>
       </div>
-      <ul class="text-sm text-slate-700 space-y-2">
+      <ul class="text-sm text-slate-700 space-y-2 flex-grow">
         <li>価格帯で取り分が変動(暫定)</li>
         <li>R18系の取り扱い・割引キャンペーンで実効単価が変動</li>
         <li>インボイス未登録時の卸価格は登録状況で異なる可能性</li>
         <li class="text-amber-700"><strong>必ずサークル管理画面で確認</strong></li>
       </ul>
-      <a href="https://www.dmm.co.jp/dc/doujin/" target="_blank" class="text-xs text-indigo-600 underline mt-3 inline-block">FANZA同人公式 ↗</a>
+      <a href="https://www.dmm.co.jp/dc/doujin/" target="_blank" class="text-xs text-indigo-600 underline mt-4 inline-block">FANZA同人公式 ↗</a>
     </div>
   </div>
   <p class="mt-6 text-sm text-slate-500 bg-slate-100 p-4 rounded-lg">
@@ -173,14 +175,14 @@
 <section id="simulator" class="anchor-offset bg-gradient-to-br from-slate-100 to-indigo-50 border-y border-slate-200">
   <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
     <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">手取りシミュレータ</h2>
-    <p class="text-slate-600 mb-8">価格・月販売数・販売形態を入力すると、3プラットフォームの手取りを比較表示します。</p>
+    <p class="text-slate-600 mb-8 md:mb-10">価格・月販売数・販売形態を入力すると、3プラットフォームの手取りを比較表示します。</p>
 
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
 
       <!-- 入力フォーム -->
-      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-          <span class="bg-indigo-100 text-indigo-700 w-7 h-7 rounded-full flex items-center justify-center text-sm">1</span>
+      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-7">
+        <h3 class="text-lg font-bold mb-5 flex items-center gap-2">
+          <span class="bg-indigo-100 text-indigo-700 w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0">1</span>
           作品情報を入力
         </h3>
 
@@ -238,17 +240,18 @@
         </details>
 
         <p class="mt-6 text-xs text-slate-500 leading-relaxed">
-          ※ 手数料率は2026年4月時点の暫定値。実際の率はプラットフォーム公式にご確認ください。インボイス未登録時の減額は予告ベースの想定値です。
+          ※ 手数料率は2026年4月時点の暫定値。実際の率はプラットフォーム公式にご確認ください。<br>
+          インボイス未登録時の取り扱いは、プラットフォーム・登録状況・時期により異なります。必ず公式案内・管理画面・税理士にご確認ください。
         </p>
       </div>
 
       <!-- 結果表示 -->
-      <div class="lg:col-span-3 space-y-6">
+      <div class="lg:col-span-3 space-y-6 md:space-y-7">
         <!-- メインカード -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <div class="flex items-center justify-between mb-4">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-7">
+          <div class="flex items-center justify-between gap-2 mb-5 flex-wrap">
             <h3 class="text-lg font-bold flex items-center gap-2">
-              <span class="bg-indigo-100 text-indigo-700 w-7 h-7 rounded-full flex items-center justify-center text-sm">2</span>
+              <span class="bg-indigo-100 text-indigo-700 w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0">2</span>
               手取り比較
             </h3>
             <div id="best_badge" class="hidden bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full"></div>
@@ -266,18 +269,18 @@
         </div>
 
         <!-- 簡易判定 + 注意点 -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 class="font-bold mb-3 flex items-center gap-2">
-            <span class="bg-amber-100 text-amber-700 w-6 h-6 rounded-full flex items-center justify-center text-xs">!</span>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-7">
+          <h3 class="font-bold mb-4 flex items-center gap-2">
+            <span class="bg-amber-100 text-amber-700 w-6 h-6 rounded-full flex items-center justify-center text-xs shrink-0">!</span>
             簡易判定 / 注意点
           </h3>
           <div id="recommendation" class="text-slate-700 mb-3"></div>
-          <ul id="caveats" class="list-disc list-inside text-sm text-slate-600 space-y-1"></ul>
+          <ul id="caveats" class="list-disc list-inside text-sm text-slate-600 space-y-1.5"></ul>
         </div>
 
         <!-- 価格別シミュレーション -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 class="font-bold mb-3">価格を変えるとどうなる?</h3>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-7">
+          <h3 class="font-bold mb-4">価格を変えるとどうなる?</h3>
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead class="bg-slate-50">
