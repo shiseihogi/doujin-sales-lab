@@ -21,6 +21,30 @@
   .anchor-offset { scroll-margin-top: 80px; }
   html { scroll-behavior: smooth; }
 </style>
+
+<!-- ============ Google Analytics 4 ============
+  GA4 を有効化するには、下の `GA_MEASUREMENT_ID` 文字列を実際の測定ID(例: G-XXXXXXXXXX)に置換してください。
+  プレースホルダーのままなら gtag() は no-op となり、クリック計測コード等は何も送信しません(デプロイは安全)。
+  Cloudflare Web Analytics は別系統(ダッシュボードで自動有効化)。両方を併用可。 -->
+<script>
+  (function() {
+    var GA_ID = 'GA_MEASUREMENT_ID';
+    window.dataLayer = window.dataLayer || [];
+    if (GA_ID && GA_ID !== 'GA_MEASUREMENT_ID') {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      window.gtag = function() { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', GA_ID, { anonymize_ip: true });
+      window.__GA_ENABLED__ = true;
+    } else {
+      window.gtag = function() { /* no-op until GA_MEASUREMENT_ID is set */ };
+      window.__GA_ENABLED__ = false;
+    }
+  })();
+</script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen">
 
@@ -418,6 +442,7 @@
     <p>④ <strong>確定申告・消費税課税対象判定・インボイス登録判断は税理士または所轄税務署にご相談ください</strong>。本サイトは税務代行を行うものではありません。</p>
     <p>⑤ 本サイトの計算結果・Excelテンプレの利用によって生じた損害について、運営者は責任を負いません。利用は自己責任でお願いします。</p>
     <p>⑥ 本サイト・Excelテンプレに記載の数値・取り分の正確性を保証するものではありません。最終的な収支は各プラットフォームの管理画面・確定振込通知でご確認ください。</p>
+    <p>⑦ 本サイトでは、利用状況の把握と改善のため、Cloudflare Web Analytics および Google Analytics 4 を利用する場合があります。個人を特定する情報は収集しません。</p>
   </div>
 </section>
 
@@ -459,6 +484,7 @@
     <p class="text-xs leading-relaxed">© 2026 Doujin Sales Lab. 概算シミュレーションのため正確性は保証されません。</p>
     <p class="text-xs leading-relaxed mt-1">手数料率・卸価格は2026年4月時点の暫定値。BOOTHは2025/10/28改定後(5.6% + ¥45/件)を反映。</p>
     <p class="text-xs leading-relaxed mt-1">確定申告・税務判断は税理士または所轄税務署にご相談ください。</p>
+    <p class="text-xs leading-relaxed mt-3 text-slate-500">本サイトでは、利用状況の把握と改善のため、Cloudflare Web Analytics および Google Analytics 4 を利用する場合があります。個人を特定する情報は収集しません。</p>
     <div class="mt-4 flex flex-wrap gap-4 justify-center text-xs">
       <a href="#features" class="hover:text-white">できること</a>
       <a href="#fees" class="hover:text-white">手数料注意</a>
@@ -615,6 +641,9 @@ function render() {
       </tr>
     `;
   }).join('');
+
+  // Analytics: simulator_used (debounced, 1セッション1回)
+  if (typeof trackSimulatorUsed === 'function') trackSimulatorUsed();
 }
 
 function bind() {
@@ -667,6 +696,75 @@ function bind() {
 
 bind();
 render();
+
+// =====================================================
+// Analytics — Excel DLクリック / シミュレータ使用 イベント
+// gtag は <head> で定義済み(GA未設定時は no-op)
+// =====================================================
+
+// 1) Excel ダウンロードリンクのクリックを GA4 に送る
+//    対象: /excel, /dl, /downloads/*.xlsx
+document.addEventListener('click', function(e) {
+  const a = e.target.closest && e.target.closest('a[href]');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  const isExcelLink =
+    href === '/excel' || href === '/dl' || /\/downloads\/.+\.xlsx(\?|$)/.test(href);
+  if (!isExcelLink) return;
+
+  // sourceセクション(囲んでる section / header の id)
+  let section = '';
+  const wrap = a.closest('section, header');
+  if (wrap && wrap.id) section = wrap.id;
+
+  // ファイル名(redirect先の場合は redirect)
+  const m = href.match(/\/([^\/?#]+\.xlsx)(?:[?#]|$)/);
+  const fileName = m ? m[1] : (href === '/excel' || href === '/dl' ? 'redirect' : '');
+
+  try {
+    gtag('event', 'excel_download_click', {
+      link_url: href,
+      link_text: (a.innerText || a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80),
+      page_path: location.pathname,
+      source_section: section,
+      file_name: fileName
+    });
+  } catch (_) { /* ignore */ }
+});
+
+// 2) シミュレータ使用イベント(debounce 1.2s + 1セッション1回)
+let __simSent = false;
+let __simTimer = null;
+function trackSimulatorUsed() {
+  if (__simSent) return;
+  if (__simTimer) clearTimeout(__simTimer);
+  __simTimer = setTimeout(function() {
+    if (typeof gtag !== 'function') return;
+    const price = Number(state.price) || 0;
+    const units = Number(state.units) || 0;
+    const priceBand =
+      price < 500 ? 'lt500'
+      : price < 1100 ? '500_1100'
+      : price < 2200 ? '1100_2200'
+      : price < 4400 ? '2200_4400'
+      : 'ge4400';
+    const qtyBand =
+      units < 10 ? 'lt10'
+      : units < 50 ? '10_50'
+      : units < 200 ? '50_200'
+      : units < 1000 ? '200_1000'
+      : 'ge1000';
+    try {
+      gtag('event', 'simulator_used', {
+        platform: 'all_three',
+        price_band: priceBand,
+        quantity_band: qtyBand,
+        page_path: location.pathname
+      });
+      __simSent = true;
+    } catch (_) { /* ignore */ }
+  }, 1200);
+}
 </script>
 </body>
 </html>
