@@ -1,0 +1,5 @@
+# Cloudflare Pages リダイレクト設定
+# 短縮URLでExcelダウンロードに飛べるように
+/excel    /downloads/doujin_uriage_kanri_v1_1.xlsx    301
+/dl       /downloads/doujin_uriage_kanri_v1_1.xlsx    301
+/download /#download                                   301

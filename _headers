@@ -1,0 +1,16 @@
+# Cloudflare Pages ヘッダー設定
+
+# 全ページ共通: セキュリティ + キャッシュ
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: interest-cohort=(), browsing-topics=()
+
+# Excelダウンロード(明示的にattachment + 短期キャッシュ)
+/downloads/*
+  Content-Disposition: attachment
+  Cache-Control: public, max-age=3600
+
+# 静的アセット(長期キャッシュ)
+/assets/*
+  Cache-Control: public, max-age=2592000, immutable

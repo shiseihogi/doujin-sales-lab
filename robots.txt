@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 公開直後はサイトマップ未提出。後で sitemap.xml を有効化する場合に追加:
+# Sitemap: https://doujin-sales-lab.pages.dev/sitemap.xml
